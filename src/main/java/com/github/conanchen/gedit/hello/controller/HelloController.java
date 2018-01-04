@@ -1,6 +1,7 @@
 package com.github.conanchen.gedit.hello.controller;
 
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +17,13 @@ public class HelloController {
 //    @Autowired
 //    private WordRepository wordRepository;
 
+    @Value("${gedit.docker.enabled}")
+    Boolean insideDocker = false;
+
     @RequestMapping(value = "/hello")
     public String hello() {
-        return "hello@" + DateFormat.getInstance().format(new Date()) + ", HelloController Spring Boot ";
+        return
+                String.format("hello@%s , HelloController Spring Boot insideDocker=%b",
+                        DateFormat.getInstance().format(new Date()), insideDocker);
     }
 }
