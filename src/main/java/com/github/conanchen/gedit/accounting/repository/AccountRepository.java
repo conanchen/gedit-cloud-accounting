@@ -1,0 +1,17 @@
+package com.github.conanchen.gedit.accounting.repository;
+
+import com.github.conanchen.gedit.accounting.model.Account;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * @author hai
+ * @description 账户表
+ * @email hilin2333@gmail.com
+ * @date 23/01/2018 11:13 AM
+ */
+public interface AccountRepository extends JpaRepository<Account,UUID> {
+    List<Account> findByUserUuidAndAccountTypeIn(UUID userUuid, List<String> accountType);
+}

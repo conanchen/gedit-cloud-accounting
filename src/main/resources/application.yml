@@ -1,0 +1,81 @@
+org:
+  springframework:
+    boot:
+      autoconfigure:
+        EnableAutoConfiguration: org.ditto.easyhan.config.SpringConfig
+
+gedit:
+  docker:
+    enabled: false
+    cloud:
+      config:
+        server:
+          git:
+            uri:
+            clone-on-start: true
+security:
+  basic:
+    enabled:
+      false
+management:
+  security:
+    enabled: false
+
+grpc:
+  port: 9983
+server:
+  port: 8091
+
+search:
+  uri: dev.jifenpz.com #defalut
+spring:
+  profiles:
+    active: dev
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+    properties:
+      hibernate: dialect:org.hibernate.dialect.MySQL5Dialect
+  data:
+    jpa:
+      repositories:
+        enabled: true
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    name: hikari
+    # 下面为连接池的补充设置，应用到上面所有数据源中
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 60000
+      connection-test-query: select 1 from dual
+      pool-name: gedit_accounting
+jjwt:
+  sigin:
+    key: shuai
+
+---
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://192.168.1.200:3306/gedit_accounting?useSSL=false
+    hikari:
+      username: root
+      password: Qizhidao!123456
+search:
+  uri: 192.168.1.200
+---
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:mysql://dev.jifenpz.com:3306/gedit_accounting?useSSL=false
+    hikari:
+      username: root
+      password:
+search:
+  uri: dev.jifenpz.com

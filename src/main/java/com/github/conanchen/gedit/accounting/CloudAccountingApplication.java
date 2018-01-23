@@ -1,4 +1,4 @@
-package com.github.conanchen.gedit.hello;
+package com.github.conanchen.gedit.accounting;
 
 
 import org.springframework.boot.SpringApplication;
@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class CloudHelloApplication {
+public class CloudAccountingApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CloudHelloApplication.class, args);
+		SpringApplication.run(CloudAccountingApplication.class, args);
 	}
 
     @Bean

@@ -1,5 +1,9 @@
-package com.github.conanchen.gedit.hello.grpc;
+package com.github.conanchen.gedit.accounting.grpc;
 
+import com.github.conanchen.gedit.accounting.grpc.interceptor.LogInterceptor;
+import com.github.conanchen.gedit.hello.grpc.HelloGrpc;
+import com.github.conanchen.gedit.hello.grpc.HelloReply;
+import com.github.conanchen.gedit.hello.grpc.HelloRequest;
 import com.google.gson.Gson;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
@@ -17,13 +21,13 @@ public class HelloService extends HelloGrpc.HelloImplBase {
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
         final HelloReply.Builder replyBuilder = HelloReply.newBuilder()
-                .setId(System.currentTimeMillis())
+                .setCreated(System.currentTimeMillis())
                 .setMessage(String.format("Hello %s@%s ", request.getName(), dateFormat.format(System.currentTimeMillis())))
                 .setCreated(System.currentTimeMillis())
                 .setLastUpdated(System.currentTimeMillis());
         HelloReply helloReply = replyBuilder.build();
         responseObserver.onNext(helloReply);
-        log.info(String.format("HelloService.sayHello() %d:%s gson=%s", helloReply.getId(), helloReply.getMessage(), gson.toJson(helloReply)));
+        log.info(String.format("HelloService.sayHello() %s:%s gson=%s", helloReply.getCreated(), helloReply.getMessage(), gson.toJson(helloReply)));
         responseObserver.onCompleted();
     }
 }

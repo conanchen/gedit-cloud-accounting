@@ -1,4 +1,4 @@
-package com.github.conanchen.gedit.hello.controller;
+package com.github.conanchen.gedit.accounting.controller;
 
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Value;
