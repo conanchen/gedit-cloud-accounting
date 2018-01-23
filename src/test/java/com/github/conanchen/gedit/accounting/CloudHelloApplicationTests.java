@@ -1,4 +1,4 @@
-package com.github.conanchen.gedit.hello;
+package com.github.conanchen.gedit.accounting;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

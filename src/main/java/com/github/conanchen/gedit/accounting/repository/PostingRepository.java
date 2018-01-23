@@ -11,5 +11,5 @@ import java.util.UUID;
  * @email hilin2333@gmail.com
  * @date 23/01/2018 11:13 AM
  */
-public interface PostingRepository extends JpaRepository<Posting,UUID> {
+public interface PostingRepository extends JpaRepository<Posting,String> {
 }

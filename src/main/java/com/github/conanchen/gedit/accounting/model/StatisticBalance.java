@@ -30,24 +30,23 @@ public class StatisticBalance {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(
             name = "uuid",
-            strategy = "org.hibernate.id.UUIDGenerator",
-            parameters = {
-                    @Parameter(
-                            name = "uuid_gen_strategy_class",
-                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
-                    )
-            }
+            strategy = "com.github.conanchen.gedit.accounting.utils.database.CustomUUIDGenerator"
     )
-    private UUID uuid;
+    @Column(columnDefinition = "varchar(32)")
+    private String uuid;
 
-    @Column(columnDefinition = "varchar(64)")
-    private UUID userUuid ;
+    @Column(columnDefinition = "varchar(32)")
+    private String userUuid ;
 
     @Column(columnDefinition = "int(11)")
     private Integer balance;
 
     @Column(columnDefinition = "varchar(32)")
     private String accountType;
+
+    // 统计的时间（天）
+    @Column(columnDefinition = "date")
+    private Date statisticDate;
 
     @Column(columnDefinition = "datetime")
     private Date createdDate;

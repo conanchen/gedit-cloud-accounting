@@ -34,19 +34,14 @@ public class Account {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(
             name = "uuid",
-            strategy = "org.hibernate.id.UUIDGenerator",
-            parameters = {
-                    @Parameter(
-                            name = "uuid_gen_strategy_class",
-                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
-                    )
-            }
+            strategy = "com.github.conanchen.gedit.accounting.utils.database.CustomUUIDGenerator"
     )
-    private UUID uuid;
+    @Column(columnDefinition = "char(32)")
+    private String uuid;
 
 
-    @Column(columnDefinition = "varchar(64)")
-    private UUID userUuid ;
+    @Column(columnDefinition = "char(32)")
+    private String userUuid ;
 
     @Column(columnDefinition = "varchar(32)")
     private String accountType;

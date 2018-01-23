@@ -30,20 +30,16 @@ public class Posting {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(
             name = "uuid",
-            strategy = "org.hibernate.id.UUIDGenerator",
-            parameters = {
-                    @Parameter(
-                            name = "uuid_gen_strategy_class",
-                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
-                    )
-            }
+            strategy = "com.github.conanchen.gedit.accounting.utils.database.CustomUUIDGenerator"
     )
-    private UUID uuid;
+    @Column(columnDefinition = "char(32)")
+    private String uuid;
 
+    @Column(columnDefinition = "char(32)")
+    private String accountUuid;
 
-    private UUID accountUuid;
-
-    private UUID journalUuid;
+    @Column(columnDefinition = "char(32)")
+    private String journalUuid;
 
     /**
      * the unit must be penny(分）

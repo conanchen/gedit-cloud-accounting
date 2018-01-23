@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * @author hai
@@ -27,18 +26,13 @@ import java.util.UUID;
 @Entity
 public class Journal {
     @Id
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(generator = "custom-uuid")
     @GenericGenerator(
-            name = "uuid",
-            strategy = "org.hibernate.id.UUIDGenerator",
-            parameters = {
-                    @Parameter(
-                            name = "uuid_gen_strategy_class",
-                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
-                    )
-            }
+            name = "custom-uuid",
+            strategy = "com.github.conanchen.gedit.accounting.utils.database.CustomUUIDGenerator"
     )
-    private UUID uuid;
+    @Column(columnDefinition = "char(32)")
+    private String uuid;
 
     /**
      *  such as deposit（存款）、withdraw（提现）、 transfer（交易）
