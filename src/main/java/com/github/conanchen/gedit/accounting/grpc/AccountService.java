@@ -17,14 +17,13 @@ import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.*;
-
-import static io.grpc.Status.Code.INVALID_ARGUMENT;
-import static io.grpc.Status.Code.OK;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author hai
@@ -47,7 +46,7 @@ public class AccountService extends AccountingAccountApiGrpc.AccountingAccountAp
             next(userUuid,accountList,responseObserver);
         } catch (UncheckedValidationException e) {
             status = Status.newBuilder()
-                    .setCode(String.valueOf(INVALID_ARGUMENT.value()))
+                    .setCode(Status.Code.INVALID_ARGUMENT)
                     .setDetails(e.getMessage())
                     .build();
             responseObserver.onNext(AccountResponse.newBuilder().setStatus(status).build());
@@ -63,13 +62,13 @@ public class AccountService extends AccountingAccountApiGrpc.AccountingAccountAp
             LocalDate localDate = LocalDate.now().minusDays(1);
             StatisticBalance balance = statisticBalanceRepository.findByAccountTypeAndStatisticDate(account.getAccountType(),localDateToDate(localDate));
             Status status = Status.newBuilder()
-                    .setCode(String.valueOf(OK.value()))
+                    .setCode(Status.Code.OK)
                     .setDetails("success")
                     .build();
             responseObserver.onNext(buildResponse(status,account,balance));
         }catch (UncheckedValidationException e){
             Status status = Status.newBuilder()
-                    .setCode(String.valueOf(INVALID_ARGUMENT.value()))
+                    .setCode(Status.Code.INVALID_ARGUMENT)
                     .setDetails(e.getMessage())
                     .build();
             responseObserver.onNext(AccountResponse.newBuilder().setStatus(status).build());
@@ -96,7 +95,7 @@ public class AccountService extends AccountingAccountApiGrpc.AccountingAccountAp
             next(claims.getSubject(),accountList,responseObserver);
         } catch (UncheckedValidationException e) {
             status = Status.newBuilder()
-                    .setCode(String.valueOf(INVALID_ARGUMENT.value()))
+                    .setCode(Status.Code.INVALID_ARGUMENT)
                     .setDetails(e.getMessage())
                     .build();
             responseObserver.onNext(AccountResponse.newBuilder().setStatus(status).build());
@@ -140,7 +139,7 @@ public class AccountService extends AccountingAccountApiGrpc.AccountingAccountAp
     private void next(String userUuid,List<Account> accountList,StreamObserver<AccountResponse> responseObserver){
         List<String> accountTypes = getAccountTypes();
         Status status = Status.newBuilder()
-                .setCode(String.valueOf(OK.value()))
+                .setCode(Status.Code.OK)
                 .setDetails("success")
                 .build();
         int temp = 0;
