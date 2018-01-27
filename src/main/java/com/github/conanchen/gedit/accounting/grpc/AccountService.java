@@ -20,10 +20,7 @@ import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author hai
@@ -78,7 +75,32 @@ public class AccountService extends AccountingAccountApiGrpc.AccountingAccountAp
 
     @Override
     public void findAccountBy(FindAccountRequest request, StreamObserver<AccountResponse> responseObserver) {
-
+        try {
+            String uuid = Hope.that(request.getUserAndAccountType().getUserUuid()).isNotNullOrEmpty().value();
+            Optional<Account> accountOpt =  accountRepository.findByAccountTypeAndUserUuid(request.getUserAndAccountType().getType().toString(),uuid);
+            if (accountOpt.isPresent()){
+                LocalDate localDate = LocalDate.now().minusDays(1);
+                StatisticBalance balance = statisticBalanceRepository
+                        .findByAccountTypeAndStatisticDate(accountOpt.get().getAccountType(),localDateToDate(localDate));
+                responseObserver.onNext(buildResponse(Status.newBuilder()
+                        .setCode(Status.Code.OK)
+                        .setDetails("success")
+                        .build(),accountOpt.get(),balance));
+            }else{
+                responseObserver.onNext(AccountResponse.newBuilder().setStatus(Status.newBuilder()
+                        .setCode(Status.Code.NOT_FOUND)
+                        .setDetails("账户不存在"))
+                        .build()
+                );
+            }
+        }catch (UncheckedValidationException e){
+            responseObserver.onNext(AccountResponse.newBuilder().setStatus(Status.newBuilder()
+                    .setCode(Status.Code.INVALID_ARGUMENT)
+                    .setDetails(e.getMessage()))
+                    .build()
+            );
+        }
+        responseObserver.onCompleted();
     }
 
     @Override
