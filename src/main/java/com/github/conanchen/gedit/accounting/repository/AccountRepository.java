@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -19,4 +20,6 @@ public interface AccountRepository extends JpaRepository<Account,String> {
     List<Account> findByUserUuidAndUpdatedDateAfter(String userUuid,Date date);
 
     List<Account> findAllByUserUuid(String userUuid);
+
+    Optional<Account> findByAccountTypeAndUserUuid(String accountType,String userUuid);
 }
